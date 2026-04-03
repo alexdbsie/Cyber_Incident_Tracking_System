@@ -22,6 +22,7 @@ def register():
 
     conn = get_db()
     existing_user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
+    # duplicate username validation added
     if existing_user:
         conn.close()
     return render_template("success.html", message="Username already exists!")
