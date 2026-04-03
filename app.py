@@ -21,11 +21,16 @@ def register():
     password = generate_password_hash(request.form['password'])
 
     conn = get_db()
+    existing_user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
+    if existing_user:
+        conn.close()
+    return render_template("success.html", message="Username already exists!")
+
     conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
     conn.commit()
     conn.close()
 
-    return "User registered successfully!"
+    return render_template("success.html", message="Registration successful!")  
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -33,13 +38,13 @@ def login():
     password = request.form['password']
 
     conn = get_db()
-    user = conn.execute("SELECT password FROM users WHERE username = ?", (username,)).fetchone()
+    user = conn.execute(
+        "SELECT password FROM users WHERE username = ?",
+        (username,)
+    ).fetchone()
     conn.close()
 
     if user and check_password_hash(user[0], password):
-        return "Login successful!"
+        return render_template("success.html", message="Login successful!")
     else:
-        return "Invalid credentials!"
-
-if __name__ == "__main__":
-    app.run(debug=True)
+        return render_template("success.html", message="Invalid credentials!")
