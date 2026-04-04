@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+
+app.secret_key="Secret123"
 
 def get_db():
     return sqlite3.connect("database.db")
@@ -58,6 +60,30 @@ def login():
             return render_template("login.html", message="Invalid credentials")
     return render_template("login.html")
 
+@app.route('/dashboard')
+def dashboard():
+    return render_template("dashboard.html")
+
 @app.route('/report_page')
 def report_page():
-    return render_template('report.html', message="Incident reported successfully!")
+    return render_template('report.html')
+
+@app.route('/report', methods=['POST'])
+def report():
+    title = request.form['title']
+    description = request.form['description']
+    severity = request.form['severity']
+    date = request.form['date']
+
+    conn = get_db()
+
+    conn.execute(
+        "INSERT INTO incidents (title, description, severity, date) VALUES (?, ?, ?, ?)",
+        (title, description, severity, date)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return render_template ("Success.html")
+    return redirect(url_for('dashboard'))

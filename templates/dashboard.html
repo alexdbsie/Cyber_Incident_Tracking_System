@@ -18,6 +18,13 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div style="color: green; text-align:center; font-size:18px; margin:10px;">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
 
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">

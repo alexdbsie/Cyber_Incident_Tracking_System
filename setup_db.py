@@ -11,3 +11,14 @@ conn.commit()
 conn.close()
 
 print("Database created successfully")
+
+conn = sqlite3.connect("database.db")
+
+try:
+    conn.execute("ALTER TABLE incidents ADD COLUMN date TEXT")
+    print("Date column added successfully")
+except:
+    print("Date column already exists")
+
+conn.commit()
+conn.close()
