@@ -57,3 +57,7 @@ def login():
         else:
             return render_template("login.html", message="Invalid credentials")
     return render_template("login.html")
+
+@app.route('/report_page')
+def report_page():
+    return render_template('report.html', message="Incident reported successfully!")
