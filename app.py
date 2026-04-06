@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, jsonify
+from flask import Flask, render_template, request, flash, redirect, jsonify, session
 import sqlite3
 import json
 
@@ -122,3 +122,8 @@ def api_incidents():
         })
 
     return render_template("api_view.html", data=json.dumps(data, indent=4))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
