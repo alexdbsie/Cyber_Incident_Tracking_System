@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, jsonify
 import sqlite3
+import json
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -79,9 +81,8 @@ def report():
     conn = get_db()
 
     conn.execute(
-        "INSERT INTO incidents (title, description, severity, date) VALUES (?, ?, ?, ?)",
-        (title, description, severity, date)
-    )
+        "INSERT INTO incidents (title, severity, description, date) VALUES (?, ?, ?, ?)",
+        (title, severity, description, date))
 
     conn.commit()
     conn.close()
@@ -103,3 +104,21 @@ def delete(id):
     conn.commit()
     conn.close()
     return redirect('/view')
+
+@app.route('/api/incidents')
+def api_incidents():
+    conn = get_db()
+    incidents = conn.execute("SELECT * FROM incidents").fetchall()
+    conn.close()
+
+    data = []
+    for i in incidents:
+        data.append({
+            "id": i[0],
+            "title": i[1],
+            "description": i[4],
+            "severity": i[3],
+            "date": i[6]
+        })
+
+    return render_template("api_view.html", data=json.dumps(data, indent=4))
