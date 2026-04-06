@@ -65,6 +65,7 @@
                     <th>Description</th>
                     <th>Severity</th>
                     <th>Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
@@ -86,6 +87,7 @@
                     </td>
 
                     <td>{{ incident[4] }}</td>
+                    <td><a href="/delete/{{ incident[0] }}" class="btn btn-danger btn-sm">Delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

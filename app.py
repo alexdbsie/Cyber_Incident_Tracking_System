@@ -25,8 +25,7 @@ def register():
     
     conn = get_db()
 
-    existing_user = conn.execute("SELECT * FROM users WHERE username = ?", 
-                    (username,)).fetchone()
+    existing_user = conn.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
     
 
     # duplicate username validation added
@@ -34,8 +33,7 @@ def register():
         conn.close()
         return render_template("register.html", message="Username already exists!")
 
-    conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", 
-                   (username, password))
+    conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
     conn.commit()
     conn.close()
 
@@ -97,3 +95,11 @@ def view():
     conn.close()
 
     return render_template("view.html", incidents=incidents)
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    conn = get_db()
+    conn.execute("DELETE FROM incidents WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+    return redirect('/view')
