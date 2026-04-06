@@ -75,6 +75,9 @@ def report():
     severity = request.form['severity']
     date = request.form['date']
 
+    if not title or not description or not severity or not date:
+        return "All fields are required"
+
     conn = get_db()
 
     conn.execute(
