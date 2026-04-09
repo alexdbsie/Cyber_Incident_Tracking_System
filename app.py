@@ -171,8 +171,14 @@ def delete(id):
 
 @app.route('/api/incidents')
 def api_incidents():
+    if 'user' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
     conn = get_db()
-    incidents = conn.execute("SELECT * FROM incidents").fetchall()
+    incidents = conn.execute(
+        "SELECT * FROM incidents WHERE user = ?",
+        (session['user'],)
+    ).fetchall()
     conn.close()
 
     data = []
@@ -180,9 +186,9 @@ def api_incidents():
         data.append({
             "id": i[0],
             "title": i[1],
-            "description": i[4],
+            "description": i[2],
             "severity": i[3],
-            "date": i[6]
+            "date": i[4]
         })
 
     return render_template("api_view.html", data=json.dumps(data, indent=4))
