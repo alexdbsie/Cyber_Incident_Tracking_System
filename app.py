@@ -165,7 +165,6 @@ def report():
 
     return render_template ("Success.html")
 
-    
 @app.route('/view')
 def view():
     if 'user' not in session:
@@ -173,11 +172,23 @@ def view():
 
     user = session['user']  
 
+    search = request.args.get('search')
+    severity = request.args.get('severity')
+
     conn = get_db()
-    incidents = conn.execute(
-        "SELECT * FROM incidents WHERE user = ?",
-        (user,)
-    ).fetchall()
+
+    query = "SELECT * FROM incidents WHERE user = ?"
+    params = [user]
+
+    if search:
+        query += " AND title LIKE ?"
+        params.append(f"%{search}%")
+
+    if severity:
+        query += " AND severity = ?"
+        params.append(severity)
+
+    incidents = conn.execute(query, params).fetchall()
     conn.close()
 
     return render_template("view.html", incidents=incidents)
