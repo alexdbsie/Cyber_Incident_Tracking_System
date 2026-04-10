@@ -104,6 +104,7 @@ def dashboard():
         return redirect('/')
 
     user = session['user']
+
     conn = get_db()
 
     total = conn.execute(
@@ -112,17 +113,17 @@ def dashboard():
     ).fetchone()[0]
 
     high = conn.execute(
-        "SELECT COUNT(*) FROM incidents WHERE user=? AND severity='High'",
+        "SELECT COUNT(*) FROM incidents WHERE severity='High' AND user=?",
         (user,)
     ).fetchone()[0]
 
     medium = conn.execute(
-        "SELECT COUNT(*) FROM incidents WHERE user=? AND severity='Medium'",
+        "SELECT COUNT(*) FROM incidents WHERE severity='Medium' AND user=?",
         (user,)
     ).fetchone()[0]
 
     low = conn.execute(
-        "SELECT COUNT(*) FROM incidents WHERE user=? AND severity='Low'",
+        "SELECT COUNT(*) FROM incidents WHERE severity='Low' AND user=?",
         (user,)
     ).fetchone()[0]
 
@@ -233,8 +234,7 @@ def api_incidents():
             "date": i[4]
         })
 
-    return render_template("api_view.html", data=json.dumps(data, indent=4))
-
+    return render_template("api_view.html", data=data)
 
 @app.route('/logout')
 def logout():

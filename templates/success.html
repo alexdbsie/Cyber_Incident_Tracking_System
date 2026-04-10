@@ -2,22 +2,125 @@
 <html>
 <head>
     <title>Success</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        body {
+            background: black;
+            font-family: 'Courier New', monospace;
+            color: #00ffcc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        h1 {
+            font-size: 2rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        .card {
+            background: rgba(10, 15, 30, 0.9);
+            border: 1px solid #00ffcc;
+            box-shadow: 0 0 25px #00ffcc44;
+            border-radius: 10px;
+            padding: 40px;
+            width: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .icon-wrap {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 2px solid #00ffcc;
+            box-shadow: 0 0 18px #00ffcc66;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 18px #00ffcc66; }
+            50%       { box-shadow: 0 0 32px #00ffccaa; }
+        }
+
+        .icon-wrap svg {
+            width: 32px;
+            height: 32px;
+            stroke: #00ffcc;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .success-title {
+            font-size: 1.15rem;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 8px #00ffcc;
+            margin-bottom: 10px;
+        }
+
+        .success-msg {
+            font-size: 0.88rem;
+            color: #00ffcc88;
+            letter-spacing: 0.04em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        a.btn-dashboard {
+            display: inline-block;
+            width: 100%;
+            padding: 11px;
+            background: transparent;
+            border: 1px solid #00ffcc;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+            text-align: center;
+        }
+
+        a.btn-dashboard:hover {
+            background: #00ffcc;
+            color: black;
+        }
+    </style>
 </head>
+
 <body>
 
-<script>
-    Swal.fire({
-        title: 'Success!',
-        text: 'Incident submitted successfully!',
-        icon: 'success',
-        confirmButtonText: 'OK'
-    }).then(() => {
-        window.location.href = "/dashboard";
-    });
-</script>
+    <h1>Cyber Incident System</h1>
+
+    <div class="card">
+
+        <div class="icon-wrap">
+            <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+        </div>
+
+        <p class="success-title">INCIDENT SUBMITTED</p>
+        <p class="success-msg">Your incident report has been successfully logged into the system.</p>
+
+        <a href="/dashboard" class="btn-dashboard">← Back to Dashboard</a>
+
+    </div>
 
 </body>
 </html>
