@@ -102,8 +102,39 @@ def login():
 def dashboard():
     if 'user' not in session:
         return redirect('/')
-    
-    return render_template("dashboard.html")
+
+    user = session['user']
+    conn = get_db()
+
+    total = conn.execute(
+        "SELECT COUNT(*) FROM incidents WHERE user=?",
+        (user,)
+    ).fetchone()[0]
+
+    high = conn.execute(
+        "SELECT COUNT(*) FROM incidents WHERE user=? AND severity='High'",
+        (user,)
+    ).fetchone()[0]
+
+    medium = conn.execute(
+        "SELECT COUNT(*) FROM incidents WHERE user=? AND severity='Medium'",
+        (user,)
+    ).fetchone()[0]
+
+    low = conn.execute(
+        "SELECT COUNT(*) FROM incidents WHERE user=? AND severity='Low'",
+        (user,)
+    ).fetchone()[0]
+
+    conn.close()
+
+    return render_template(
+        "dashboard.html",
+        total=total,
+        high=high,
+        medium=medium,
+        low=low
+    )
 
 @app.route('/report_page')
 def report_page():
