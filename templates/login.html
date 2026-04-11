@@ -3,7 +3,6 @@
 <head>
     <title>Cyber Login</title>
 
-    <!-- Bootstrap (optional but good) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -16,7 +15,6 @@
             overflow: hidden;
         }
 
-        /* MATRIX CANVAS */
         canvas {
             position: fixed;
             top: 0;
@@ -24,7 +22,6 @@
             z-index: -1;
         }
 
-        /* LOGIN BOX */
         .login-box {
             position: absolute;
             top: 50%;
@@ -41,7 +38,6 @@
             text-align: center;
         }
 
-        /* INPUT */
         input {
             width: 100%;
             padding: 10px;
@@ -56,7 +52,6 @@
             outline: none;
         }
 
-        /* BUTTON */
         .btn-login {
             width: 100%;
             padding: 10px;
@@ -81,10 +76,8 @@
 
 <body>
 
-<!-- MATRIX BACKGROUND -->
 <canvas id="matrix"></canvas>
 
-<!-- LOGIN BOX -->
 <div class="login-box">
 
     <h3>🛡 CYBER INCIDENT SYSTEM</h3>
@@ -107,7 +100,6 @@
 
 </div>
 
-<!-- MATRIX SCRIPT -->
 <script>
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
@@ -145,7 +137,6 @@ function draw() {
 setInterval(draw, 35);
 </script>
 
-<!-- TYPING EFFECT -->
 <script>
 let text = "Initializing Secure Login...";
 let i = 0;

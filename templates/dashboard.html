@@ -49,6 +49,13 @@ button:hover, a:hover {
 <div class="container">
     <h1>Cyber Incident Dashboard</h1>
 
+    <div style="margin-bottom:20px;">
+        <h3>Total Incidents: {{ total }}</h3>
+        <h4 style="color:red;">High: {{ high }}</h4>
+        <h4 style="color:orange;">Medium: {{ medium }}</h4>
+        <h4 style="color:green;">Low: {{ low }}</h4>
+    </div>
+
     <div class="card">
         <p>Select an option</p>
 

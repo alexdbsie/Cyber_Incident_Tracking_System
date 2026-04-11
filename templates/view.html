@@ -2,80 +2,260 @@
 <html>
 <head>
     <title>View Incidents</title>
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            background: linear-gradient(to right, #1e3c72, #2a5298);
-            color: white;
+            background: black;
+            font-family: 'Courier New', monospace;
+            color: #00ffcc;
+            min-height: 100vh;
         }
-        .card {
-            border-radius: 15px;
+
+       
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 30px;
+            border-bottom: 1px solid #00ffcc33;
+            background: rgba(10, 15, 30, 0.95);
         }
-        .table {
+
+        nav .brand {
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 8px #00ffcc;
+        }
+
+        nav a {
+            font-size: 0.85rem;
+            color: #00ffcc;
+            text-decoration: none;
+            border: 1px solid #00ffcc;
+            padding: 7px 16px;
+            border-radius: 6px;
+            letter-spacing: 0.05em;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        nav a:hover {
+            background: #00ffcc;
+            color: black;
+        }
+
+        
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 10px #00ffcc;
+            margin-bottom: 6px;
+        }
+
+        .total {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #00ffcc88;
+            margin-bottom: 30px;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-bar input,
+        .filter-bar select {
+            background: rgba(0, 255, 204, 0.05);
+            border: 1px solid #00ffcc55;
+            border-radius: 6px;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            padding: 9px 12px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .filter-bar input { flex: 1; min-width: 180px; }
+        .filter-bar input::placeholder { color: #00ffcc55; }
+
+        .filter-bar input:focus,
+        .filter-bar select:focus { border-color: #00ffcc; }
+
+        .filter-bar select option { background: #0a0f1e; color: #00ffcc; }
+
+        .filter-bar button {
+            padding: 9px 22px;
+            background: transparent;
+            border: 1px solid #00ffcc;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .filter-bar button:hover {
+            background: #00ffcc;
+            color: black;
+        }
+
+        
+        .table-card {
+            background: rgba(10, 15, 30, 0.9);
+            border: 1px solid #00ffcc;
+            box-shadow: 0 0 25px #00ffcc33;
             border-radius: 10px;
             overflow: hidden;
         }
-        .badge-low {
-            background-color: #28a745;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
         }
+
+        thead {
+            background: rgba(0, 255, 204, 0.08);
+            border-bottom: 1px solid #00ffcc55;
+        }
+
+        thead th {
+            padding: 14px 16px;
+            text-align: center;
+            letter-spacing: 0.08em;
+            font-size: 0.75rem;
+            color: #00ffccbb;
+            text-transform: uppercase;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #00ffcc15;
+            transition: background 0.15s;
+        }
+
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: rgba(0, 255, 204, 0.04); }
+
+        tbody td {
+            padding: 13px 16px;
+            text-align: center;
+            color: #00ffccdd;
+        }
+
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .badge-low {
+            background: rgba(99, 153, 34, 0.2);
+            border: 1px solid #639922;
+            color: #a3d45a;
+        }
+
         .badge-medium {
-            background-color: #ffc107;
+            background: rgba(239, 159, 39, 0.2);
+            border: 1px solid #ef9f27;
+            color: #f5c26a;
+        }
+
+        .badge-high {
+            background: rgba(226, 75, 74, 0.2);
+            border: 1px solid #e24b4a;
+            color: #f08080;
+        }
+
+
+        .btn-delete {
+            display: inline-block;
+            padding: 5px 14px;
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #e24b4a;
+            color: #f08080;
+            border-radius: 6px;
+            text-decoration: none;
+            background: rgba(226, 75, 74, 0.1);
+            transition: background 0.2s, color 0.2s;
+            letter-spacing: 0.04em;
+        }
+
+        .btn-delete:hover {
+            background: #e24b4a;
             color: black;
         }
-        .badge-high {
-            background-color: #dc3545;
+
+
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #00ffcc44;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
         }
     </style>
 </head>
 
 <body>
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid">
-        <span class="navbar-brand">Cyber Incident System</span>
-        <a href="/dashboard" class="btn btn-outline-light">Dashboard</a>
-    </div>
-</nav>
+    <nav>
+        <span class="brand">Cyber Incident System</span>
+        <a href="/dashboard">← Dashboard</a>
+    </nav>
 
-<div class="container mt-5">
+    <div class="container">
 
-    
-    <h2 class="text-center mb-4">
-        <i class="fas fa-exclamation-triangle"></i> Incident Reports
-    </h2>
+        <h1>View Incidents</h1>
+        <p class="total">Total Incidents: {{ incidents|length }}</p>
 
-    <h5 class="text-center mb-3">
-    <span class="badge bg-info text-dark">
-        Total Incidents: {{ incidents|length }}
-    </span>
-</h5>
+        <form method="GET" action="/view" class="filter-bar">
+            <input type="text" name="search" placeholder="Search by title..." value="{{ request.args.get('search', '') }}">
+            <select name="severity">
+                <option value="">All Severities</option>
+                <option value="Low" {% if request.args.get('severity') == 'Low' %}selected{% endif %}>Low</option>
+                <option value="Medium" {% if request.args.get('severity') == 'Medium' %}selected{% endif %}>Medium</option>
+                <option value="High" {% if request.args.get('severity') == 'High' %}selected{% endif %}>High</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
 
-    
-    <div class="card shadow p-4 bg-white text-dark">
-
-        <table class="table table-hover text-center align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Severity</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Severity</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {% for incident in incidents %}
                 <tr>
                     <td>{{ incident[0] }}</td>
                     <td>{{ incident[1] }}</td>
                     <td>{{ incident[2] }}</td>
-
                     <td>
                         {% if incident[3] == 'Low' %}
                             <span class="badge badge-low">Low</span>
@@ -85,18 +265,22 @@
                             <span class="badge badge-high">High</span>
                         {% endif %}
                     </td>
-
                     <td>{{ incident[4] }}</td>
-                    <td><a href="/delete/{{ incident[0] }}" class="btn btn-danger btn-sm">Delete</a></td>
+                    <td>
+                        <a href="/delete/{{ incident[0] }}" class="btn-delete">Delete</a>
+                    </td>
                 </tr>
                 {% endfor %}
-            </tbody>
-
-        </table>
+                {% if incidents|length == 0 %}
+                <tr>
+                    <td colspan="6" class="empty">No incidents found.</td>
+                </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
 
     </div>
-
-</div>
 
 </body>
 </html>
